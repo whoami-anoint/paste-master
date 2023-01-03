@@ -9,20 +9,28 @@ import (
 )
 
 func main() {
-	// Set your API key and URL
-	apiKey := "your-api-key"
-	url := "https://pastebin.com/api/api_post.php"
+	// Prompt the user for their pastebin API key and the name of the file they want to create
+	var apiKey, fileName string
+	fmt.Print("Enter your pastebin API key: ")
+	fmt.Scanln(&apiKey)
+	fmt.Print("Enter the name of the file you want to create: ")
+	fmt.Scanln(&fileName)
+
+	// Prompt the user for the text they want to save to the file
+	var text string
+	fmt.Print("Enter the text you want to save to the file: ")
+	fmt.Scanln(&text)
 
 	// Set up the parameters for the POST request
 	data := url.Values{}
 	data.Set("api_dev_key", apiKey)
 	data.Set("api_option", "paste")
-	data.Set("api_paste_code", "This is the text that will be saved to the file.")
-	data.Set("api_paste_name", "example-file")
+	data.Set("api_paste_code", text)
+	data.Set("api_paste_name", fileName)
 
 	// Create an HTTP client and send the POST request to the pastebin API
 	client := &http.Client{}
-	req, err := http.NewRequest("POST", url, bytes.NewBufferString(data.Encode()))
+	req, err := http.NewRequest("POST", "https://pastebin.com/api/api_post.php", bytes.NewBufferString(data.Encode()))
 	if err != nil {
 		fmt.Println(err)
 		return
